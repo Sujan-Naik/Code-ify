@@ -1,12 +1,9 @@
 <script setup>
-
+  import navbar from "./components/Navbar.vue"
 </script>
 
 <template>
-  <header>
-    <h1> Pal-ify </h1>
-  </header>
-
-
+  <navbar/>
+  <router-view></router-view>
 </template>
 
