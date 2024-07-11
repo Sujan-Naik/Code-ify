@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col-4">
     <div id="list-example" class="list-group">
-      <a href="#list-item-1" class="list-group-item list-group-item-action active" aria-current="true">
+      <a href="#list-item-1" class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">What we're about</h5>
           <small>3 days ago</small>

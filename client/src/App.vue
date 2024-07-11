@@ -2,8 +2,15 @@
   import navbar from "./components/Navbar.vue"
 </script>
 
+<script>
+
+</script>
+
 <template>
   <navbar/>
-  <router-view></router-view>
+  <div id="app">
+    <router-view/>
+  </div>
+
 </template>
 
