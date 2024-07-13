@@ -4,9 +4,19 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const path = require('path')
+const cookieParser = require("cookie-parser");
 require('dotenv').config();
 
-app.use(cors())
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+
 app.use(bodyParser.json())
 
 mongoose
@@ -18,7 +28,8 @@ mongoose
     .then(() => console.log('MongoDB database Connected...'))
     .catch((err) => console.log(err))
 
-const UserRoutes = require('./routes/api/userRoutes')
+
+const UserRoutes = require('./routes/userRoutes')
 
 app.use('/api/user', UserRoutes)
 

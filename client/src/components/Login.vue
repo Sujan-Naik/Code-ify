@@ -1,6 +1,8 @@
 <script>
   import axios from "axios";
 
+  import { useAuthStore } from '../stores/auth.store.js';
+
   export default {
     name: "Login",
     data() {
@@ -13,11 +15,17 @@
     methods: {
       async getUser(e) {
         e.preventDefault();
-          const response = await axios.get('http://localhost:3000/api/user/'+this.username).then(value => {
+          const response = await axios.get('http://localhost:3000/api/user',  {
+            params: {
+              username: this.username
+            }
+          }).then(value => {
             if ((value)["data"][0].password === this.password) {
+              // console.log(value)
               this.message.innerHTML = "You have successfully logged in!"
               this.message.className = "alert alert-success"
               this.message.role = "alert"
+              useAuthStore().login(value["data"][0])
             } else {
               this.message.innerHTML = "Incorrect password"
               this.message.className = "alert alert-danger"

@@ -9,7 +9,7 @@
   <nav class="navbar" data-bs-theme="dark" >
     <div class="container-fluid">
       <a class="navbar-brand" href="/" >
-        Pal-ify
+        Code-ify
       </a>
        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">

@@ -1,11 +1,15 @@
 const { Router } = require('express')
-const User = require('../../models/user')
+const {Signup} = require("../controllers/AuthController");
+const {userVerification} = require("../middlewares/AuthMiddleware");
+const UserModel = require("../models/UserModel");
+
 
 const router = Router()
 
 router.get('/', async (req, res) => {
     try {
-        const userList = await User.find()
+        console.log('test')
+        const userList = await UserModel.find()
         if (!userList) throw new Error('No user found')
         res.status(200).json(userList)
     } catch (error) {
@@ -13,25 +17,18 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
-    const newUser = new User(req.body)
-    try {
-        const user = await newUser.save()
-        if (!user) throw new Error('Something went wrong saving the user')
-        res.status(200).json(user)
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
+router.post('/', Signup);
+
+router.post('/home/', userVerification)
 
 router.get('/:username', async (req, res) => {
     const { username } = req.params
     try {
-        const userList = await User.find({
+        const user = await UserModel.findOne({
             username: username
         })
-        if (!userList) throw new Error('No user found')
-        res.status(200).json(userList)
+        if (!user) throw new Error('No user found')
+        res.status(200).json(user)
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -40,7 +37,7 @@ router.get('/:username', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const removed = await User.findByIdAndDelete(id)
+        const removed = await UserModel.findByIdAndDelete(id)
         if (!removed) throw Error('Something went wrong ')
         res.status(200).json(removed)
     } catch (error) {

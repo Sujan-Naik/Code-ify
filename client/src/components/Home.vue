@@ -2,6 +2,10 @@
 </script>
 
 <template>
+
+
+
+
 <div class="row">
   <div class="col-4">
     <div id="list-example" class="list-group">
