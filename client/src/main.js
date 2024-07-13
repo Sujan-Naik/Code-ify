@@ -7,7 +7,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import Home from './components/Home.vue'
 import Login from './components/Login.vue'
-import Todo from "./components/Todo.vue";
+import Signup from './components/Signup.vue'
 
 
 import {createRouter, createWebHistory} from "vue-router";
@@ -18,7 +18,7 @@ const router = createRouter({
     routes: [
         { path: '/', component: Home },
         { path: '/login', component: Login},
-        { path: '/todo', component: Todo}
+        { path: '/sign-up', component: Signup},
     ]
 });
 

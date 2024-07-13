@@ -24,6 +24,19 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.get('/:username', async (req, res) => {
+    const { username } = req.params
+    try {
+        const userList = await User.find({
+            username: username
+        })
+        if (!userList) throw new Error('No user found')
+        res.status(200).json(userList)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 router.delete('/:id', async (req, res) => {
     const { id } = req.params
     try {
