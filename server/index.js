@@ -10,6 +10,8 @@ require('dotenv').config();
 app.use(cors())
 app.use(bodyParser.json())
 
+
+
 mongoose
     .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
@@ -19,6 +21,7 @@ mongoose
     .then(() => console.log('MongoDB database Connected...'))
     .catch((err) => console.log(err))
 
-app.use('./routes/api/todoList', TodoListRoutes)
+app.use('/api/todoList', TodoListRoutes)
+
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))

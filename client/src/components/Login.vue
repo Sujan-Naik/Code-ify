@@ -14,10 +14,11 @@
 
   const username = ref("")
   const password = ref("")
-
   function createUser(){
     console.log(`username is ${username.value} and password is ${password.value}`)
   }
+
+
 </script>
 
 <template>
