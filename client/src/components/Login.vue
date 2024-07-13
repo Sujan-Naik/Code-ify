@@ -1,35 +1,50 @@
-<!--<script src="https://apis.google.com/js/platform.js" async defer>-->
-<!--    // function onSignIn(googleUser) {-->
-<!--    //   var profile = googleUser.getBasicProfile();-->
-<!--    //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.-->
-<!--    //   console.log('Name: ' + profile.getName());-->
-<!--    //   console.log('Image URL: ' + profile.getImageUrl());-->
-<!--    //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.-->
-<!--    // }-->
+<script>
+  import axios from "axios";
 
-<!--</script>-->
+  export default {
+    name: "Login",
+    data() {
+      return {
+        message: document.createElement("div"),
+        username: "",
+        password: "",
+      };
+    },
+    methods: {
+      async getUser(e) {
+        e.preventDefault();
+        try {
+          const response = await axios.get('http://localhost:3000/api/user/', {
+          params: {username: this.username}
+          });
 
-<script setup>
-  import { ref } from 'vue'
-
-  const username = ref("")
-  const password = ref("")
-  function createUser(){
-    console.log(`username is ${username.value} and password is ${password.value}`)
-  }
-
+          if (response.data.password === this.password) {
+            this.message.innerHTML = "You have successfully logged in!"
+            this.message.className = "alert alert-success"
+            this.message.role = "alert"
+          } else {
+            this.message.innerHTML = "Incorrect password"
+            this.message.className = "alert alert-danger"
+            this.message.role = "alert"
+          }
+        }
+        catch (e) {
+          this.message.innerHTML = e.message
+          this.message.className = "alert alert-warning"
+          this.message.role = "alert"
+        }
+        finally {
+          document.body.append(this.message)
+        }
+      },
+    }
+  };
 
 </script>
 
 <template>
 
-<!--  <head>-->
-<!--    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">-->
-<!--  </head>-->
-
-<!--  <div  class="g-signin2" data-onsuccess="onSignIn"></div>-->
-
-  <form @submit.prevent="createUser">
+  <form @submit.prevent="getUser">
     <input v-model="username" placeholder="Enter username" />
     <input v-model="password" placeholder="Enter password" />
     <button type="submit">Submit</button>
