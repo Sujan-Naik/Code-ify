@@ -7,7 +7,7 @@
     name: "Login",
     data() {
       return {
-        message: document.createElement("div"),
+        message: "",
         username: "",
         password: "",
         attempt: false
@@ -50,6 +50,11 @@
     <input v-model="password" placeholder="Enter password" />
     <button type="submit">Submit</button>
   </form>
+
+  <a class="nav-link active" aria-current="page">
+    <RouterLink to="/sign-up">Sign up here</RouterLink>
+  </a>
+
   <div class="alert alert-primary" role="alert" v-show="attempt" >
     {{message}}
   </div>
