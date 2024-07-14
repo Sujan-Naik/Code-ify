@@ -10,6 +10,7 @@
         message: document.createElement("div"),
         username: "",
         password: "",
+        attempt: false
       };
     },
     methods: {
@@ -36,8 +37,13 @@
             this.message.className = "alert alert-danger"
             this.message.role = "alert"
           });
-          document.body.append(this.message);
 
+          document.body.append(this.message)
+          window.clearTimeout()
+          this.attempt = true
+          window.setTimeout(() => {
+            this.attempt = false
+          }, 3000)
       },
     }
   };
@@ -51,4 +57,5 @@
     <input v-model="password" placeholder="Enter password" />
     <button type="submit">Submit</button>
   </form>
+
 </template>

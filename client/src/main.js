@@ -14,6 +14,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import {useAuthStore} from "@/stores/auth.store.js";
 
 import { createPinia } from 'pinia'
+import Profile from "@/components/MyProfile.vue";
 const pinia = createPinia()
 
 
@@ -25,6 +26,7 @@ export const router = createRouter({
         { path: '/home', component: Home, props: {} },
         { path: '/login', component: Login},
         { path: '/sign-up', component: Signup},
+        { path: '/my-profile', component: Profile, props: {user: JSON}},
     ]
 });
 
