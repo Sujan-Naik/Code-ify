@@ -5,7 +5,7 @@ import axios from "axios";
 export const useUsersStore = defineStore({
     id: 'users',
     state: () => ({
-        users: {}
+        users: []
     }),
     actions: {
         async getAll() {

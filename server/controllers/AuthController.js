@@ -1,7 +1,6 @@
 // https://www.freecodecamp.org/news/how-to-secure-your-mern-stack-application/
 
  User = require("../models/UserModel");
-const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcryptjs");
 
 module.exports.Signup = async (req, res) => {
@@ -15,12 +14,7 @@ module.exports.Signup = async (req, res) => {
     }
 
     const user = await User.create({ email, password, username, createdAt });
-    const token = createSecretToken(user._id);
 
-    res.cookie("token", token, {
-      withCredentials: true,
-      httpOnly: false,
-    });
     res
       .status(201)
       .json({ message: "User signed in successfully", success: true, user });

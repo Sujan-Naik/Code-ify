@@ -1,6 +1,5 @@
 const { Router } = require('express')
 const {Signup} = require("../controllers/AuthController");
-const {userVerification} = require("../middlewares/AuthMiddleware");
 const UserModel = require("../models/UserModel");
 
 
@@ -18,8 +17,6 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', Signup);
-
-router.post('/home/', userVerification)
 
 router.get('/:username', async (req, res) => {
     const { username } = req.params
