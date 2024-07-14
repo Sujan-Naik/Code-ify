@@ -1,12 +1,34 @@
 <script setup>
 
+  import navbar from "./components/Navbar.vue"
+  //
+  // import { storeToRefs } from 'pinia';
+  //
+  // import { useAuthStore } from './stores/auth.store.js';
+  // import { useUsersStore } from './stores/users.store.js';
+  //
+  //
+  // const authStore = useAuthStore();
+  // const { user: authUser } = storeToRefs(authStore);
+  //
+  // const usersStore = useUsersStore();
+  // const { users } = storeToRefs(usersStore);
+  //
+  // usersStore.getAll();
+
+
+</script>
+
+<script>
+
 </script>
 
 <template>
-  <header>
-    <h1> Pal-ify </h1>
-  </header>
+  <navbar />
 
+  <div id="app">
+    <router-view/>
+  </div>
 
 </template>
 
