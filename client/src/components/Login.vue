@@ -23,22 +23,15 @@
           }).then(value => {
             if ((value)["data"][0].password === this.password) {
               // console.log(value)
-              this.message.innerHTML = "You have successfully logged in!"
-              this.message.className = "alert alert-success"
-              this.message.role = "alert"
+              this.message = "You have successfully logged in!"
               useAuthStore().login(value["data"][0])
             } else {
-              this.message.innerHTML = "Incorrect password"
-              this.message.className = "alert alert-danger"
-              this.message.role = "alert"
+              this.message = "Incorrect password"
             }
           }).catch(reason => {
-            this.message.innerHTML = reason
-            this.message.className = "alert alert-danger"
-            this.message.role = "alert"
+            this.message = reason
           });
 
-          document.body.append(this.message)
           window.clearTimeout()
           this.attempt = true
           window.setTimeout(() => {
@@ -57,5 +50,9 @@
     <input v-model="password" placeholder="Enter password" />
     <button type="submit">Submit</button>
   </form>
+  <div class="alert alert-primary" role="alert" v-show="attempt" >
+    {{message}}
+  </div>
+
 
 </template>
