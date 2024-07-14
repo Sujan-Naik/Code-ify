@@ -16,3 +16,10 @@ export function useCreatedAt(props) {
   const username = props.user?.username
   return { username }
 }
+
+export function useUser(props){
+    const username = props.user?.username
+  const email = props.user?.email
+  const createdAt = props.user?.createdAt
+  return {username, email, createdAt}
+}

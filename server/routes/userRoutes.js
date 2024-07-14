@@ -5,16 +5,16 @@ const UserModel = require("../models/UserModel");
 
 const router = Router()
 
-// router.get('/', async (req, res) => {
-//     try {
-//         console.log(req.params)
-//         const userList = await UserModel.find()
-//         if (!userList) throw new Error('No user found')
-//         res.status(200).json(userList)
-//     } catch (error) {
-//         res.status(500).json({ message: error.message })
-//     }
-// })
+router.get('/', async (req, res) => {
+    try {
+        console.log(req.params)
+        const userList = await UserModel.find()
+        if (!userList) throw new Error('No user found')
+        res.status(200).json(userList)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
 
 router.post('/', Signup);
 
