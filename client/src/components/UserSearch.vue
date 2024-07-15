@@ -1,6 +1,6 @@
 <script>
 
-import {h, ref, render, watch} from "vue";
+import {createApp, h, ref, render, watch} from "vue";
 import axios from "axios";
 import UserPreview from "@/components/UserPreview.vue";
 
@@ -26,33 +26,31 @@ export default{
               }
             })
 
-            const matchingUsers = this.matchingUsers
-
-            matchingUsers.forEach(function (oldMatchingUser) {
+            this.matchingUsers.forEach(function (oldMatchingUser) {
               if (!possibleUsers.some(newUser => newUser.username === oldMatchingUser.username)) {
                 // remove old invalid users
 
               }
-            })
+            }, this)
 
-            possibleUsers.forEach(function (newMatchingUser) {
-              if (!matchingUsers.some(oldUser => oldUser.username === newMatchingUser.username)) {
-                console.log(newMatchingUser)
-                // Check which users are new and display
-                // this.getMatchingUsers().remove(this.getMatchingUsers().indexOf())
-                const vueComponent = h(UserPreview, { user: newMatchingUser});
-                // Append it to p (which is an HTML Element)
-                console.log(newMatchingUser.username)
-                render(vueComponent, document.body)
+
+            possibleUsers.forEach( function (newMatchingUser) {
+              if (!this.matchingUsers.some(oldUser => oldUser.username === newMatchingUser.username)) {
+                const vueComponent = createApp(UserPreview, {user : newMatchingUser})
+                // const vueComponent = h(UserPreview, { user: newMatchingUser});
+                // console.log(newMatchingUser.username)
+                const list = document.getElementById('list')
+                const listElement = document.createElement("li")
+                list.appendChild(listElement)
+                vueComponent.mount(listElement)
               }
-            })
-            this.matchingUsers = possibleUsers
+            }, this)
           })
     },
   },
   mounted() {
     watch(() => this.searchQuery, async () => {
-    this.getMatchingUsers()
+    await this.getMatchingUsers()
   })
   }
 
@@ -68,7 +66,7 @@ export default{
     <input  v-model="searchQuery" type="text" id="fname" name="fname"><br><br>
   </header>
   <body>
-  <ol class="list-group list-group-numbered">
+  <ol class="list-group list-group-numbered" id="list">
   </ol>
   </body>
 </template>
