@@ -46,10 +46,17 @@ export default{
 
 <template>
   <header>
-     <label>Search for a user:</label>
-    <input  v-model="searchQuery" type="text" id="fname" name="fname"><br><br>
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Toggle top offcanvas</button>
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasTopLabel">Search</h5>
+      </div>
+      <div class="offcanvas-body">
+        <input  v-model="searchQuery" type="text" id="fname" name="fname"><br><br>
+        <UserPreviewList :userList="matchingUsers"></UserPreviewList>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+  </div>
   </header>
-  <body>
-  <UserPreviewList :userList="matchingUsers"></UserPreviewList>
-  </body>
+
 </template>

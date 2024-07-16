@@ -6,7 +6,6 @@
  import {useUser} from "../composables/userComposables.js";
 
  const { username, email, createdAt} = useUser(props)
-  console.log(props)
 </script>
 
 <template>
