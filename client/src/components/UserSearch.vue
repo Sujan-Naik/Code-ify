@@ -1,14 +1,16 @@
 <script>
 
-import {createApp, h, ref, render, watch} from "vue";
+import {h, ref, render, watch} from "vue";
 import axios from "axios";
 import UserPreview from "@/components/UserPreview.vue";
+import UserPreviewList from "@/components/UserPreviewList.vue";
 
 export default{
+  components: {UserPreviewList, UserPreview},
   data(){
     return {
       searchQuery: ref(""),
-      matchingUsers: []
+      matchingUsers: ref([])
     }
   },
   methods: {
@@ -26,27 +28,9 @@ export default{
               }
             })
 
-            this.matchingUsers.forEach(function (oldMatchingUser) {
-              if (!possibleUsers.some(newUser => newUser.username === oldMatchingUser.username)) {
-                // remove old invalid users
-
-              }
-            }, this)
-
-
-            possibleUsers.forEach( function (newMatchingUser) {
-              if (!this.matchingUsers.some(oldUser => oldUser.username === newMatchingUser.username)) {
-                const vueComponent = createApp(UserPreview, {user : newMatchingUser})
-                // const vueComponent = h(UserPreview, { user: newMatchingUser});
-                // console.log(newMatchingUser.username)
-                const list = document.getElementById('list')
-                const listElement = document.createElement("li")
-                list.appendChild(listElement)
-                vueComponent.mount(listElement)
-              }
-            }, this)
+            this.matchingUsers.value = possibleUsers
           })
-    },
+    }
   },
   mounted() {
     watch(() => this.searchQuery, async () => {
@@ -66,7 +50,6 @@ export default{
     <input  v-model="searchQuery" type="text" id="fname" name="fname"><br><br>
   </header>
   <body>
-  <ol class="list-group list-group-numbered" id="list">
-  </ol>
+  <UserPreviewList :userList="matchingUsers"></UserPreviewList>
   </body>
 </template>
