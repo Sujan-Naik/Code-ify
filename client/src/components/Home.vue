@@ -1,9 +1,13 @@
-<script>
+<script setup>
+
+  function createShowcase(){
+
+  }
 </script>
 
 <template>
 
-
+<button onclick=""> create new showcase</button>
 
 
 <div class="row">

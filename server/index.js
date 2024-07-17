@@ -33,5 +33,9 @@ const UserRoutes = require('./routes/userRoutes')
 
 app.use('/api/user', UserRoutes)
 
+const ShowcaseRoutes = require('./routes/showcaseRoutes')
+
+app.use('/api/showcase', ShowcaseRoutes)
+
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))

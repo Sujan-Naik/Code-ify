@@ -16,6 +16,7 @@ import {useAuthStore} from "@/stores/auth.store.js";
 import { createPinia } from 'pinia'
 import MyProfile from "@/components/MyProfile.vue";
 import PublicProfile from "@/components/PublicProfile.vue";
+import CreateShowcase from "@/components/CreateShowcase.vue";
 const pinia = createPinia()
 
 
@@ -29,6 +30,7 @@ export const router = createRouter({
         { path: '/sign-up', component: Signup},
         { path: '/my-profile', component: MyProfile, props: {user: JSON}},
         { path: '/profile/:username', component: PublicProfile, name:'profile'},
+        { path: '/showcase', component: CreateShowcase, name:'create-showcase'},
     ]
 });
 
