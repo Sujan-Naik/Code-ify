@@ -7,10 +7,24 @@ const router = Router()
 
 router.get('/', async (req, res) => {
     try {
-        console.log(req.params)
+        if (!req.params.length === 0 ) {
+            console.log(username)
+            const user = await UserModel.findOne({
+                username: username
+            })
+
+            if (!user) {
+                req.status(404).json({ message: "User not found" })
+            } else {
+                res.status(200).json(user)
+            }
+        } else {
+            console.log(req.params)
         const userList = await UserModel.find()
         if (!userList) throw new Error('No user found')
         res.status(200).json(userList)
+        }
+
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -18,23 +32,23 @@ router.get('/', async (req, res) => {
 
 router.post('/', Signup);
 
-router.get('/*', async (req, res) => {
-    try {
-        const { username } = req.query
-        console.log(username)
-        const user = await UserModel.findOne({
-            username: username
-        })
-
-        if (!user) {
-            req.status(404).json({ message: "User not found" })
-        } else {
-            res.status(200).json(user)
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
+// router.get('/*', async (req, res) => {
+//     try {
+//         const { username } = req.query
+//         console.log(username)
+//         const user = await UserModel.findOne({
+//             username: username
+//         })
+//
+//         if (!user) {
+//             req.status(404).json({ message: "User not found" })
+//         } else {
+//             res.status(200).json(user)
+//         }
+//     } catch (error) {
+//         res.status(500).json({ message: error.message })
+//     }
+// })
 
 router.delete('/', async (req, res) => {
     const { id } = req.params

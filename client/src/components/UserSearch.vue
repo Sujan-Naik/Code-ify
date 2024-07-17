@@ -32,10 +32,10 @@ export default{
           })
     }
   },
-  mounted() {
-    watch(() => this.searchQuery, async () => {
-    await this.getMatchingUsers()
-  })
+  watch: {
+    async searchQuery() {
+      await this.getMatchingUsers()
+    },
   }
 
 };

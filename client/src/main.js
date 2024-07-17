@@ -28,7 +28,7 @@ export const router = createRouter({
         { path: '/login', component: Login},
         { path: '/sign-up', component: Signup},
         { path: '/my-profile', component: MyProfile, props: {user: JSON}},
-        { path: '/profile/:username', component: PublicProfile},
+        { path: '/profile/:username', component: PublicProfile, name:'profile'},
     ]
 });
 

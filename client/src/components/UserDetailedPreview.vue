@@ -10,6 +10,9 @@
 
 <template>
   <div>
-      <a> Username is {{username}}</a>
+    <RouterLink :to="'/profile/' + username">
+      <a> Todo, contains more detailed information about said user</a>
+    </RouterLink>
+
   </div>
 </template>
