@@ -5,30 +5,21 @@ const UserModel = require("../models/UserModel");
 
 const router = Router()
 
-// router.get('/', async (req, res) => {
-//     try {
-//         if (!req.params.length === 0 ) {
-//             console.log(username)
-//             const user = await UserModel.findOne({
-//                 username: username
-//             })
-//
-//             if (!user) {
-//                 req.status(404).json({ message: "User not found" })
-//             } else {
-//                 res.status(200).json(user)
-//             }
-//         } else {
-//             console.log(req.params)
-//         const userList = await UserModel.find()
-//         if (!userList) throw new Error('No user found')
-//         res.status(200).json(userList)
-//         }
-//
-//     } catch (error) {
-//         res.status(500).json({ message: error.message })
-//     }
-// })
+router.get('/', async (req, res) => {
+    try {
+      const name = req.query.name
+      const showcase = await ShowcaseModel.findOne({name: name})
+      if (!showcase) {
+        res.status(404).json({ message: "Showcase not found" })
+      } else {
+        showcase.users = (showcase.users.map(async value => await UserModel.findById(value)))
+        // showcase.users = []
+        res.status(200).json(showcase)
+      }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
 
 router.post('/', async (req, res) => {
   try {
