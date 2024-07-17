@@ -1,6 +1,7 @@
 <script setup>
 
   import navbar from "./components/Navbar.vue"
+  import userSearch from "./components/UserSearch.vue"
   //
   // import { storeToRefs } from 'pinia';
   //
@@ -25,6 +26,7 @@
 
 <template>
   <navbar />
+  <userSearch/>
 
   <div id="app">
     <router-view/>
