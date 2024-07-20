@@ -12,7 +12,16 @@ router.get('/', async (req, res) => {
       if (!showcase) {
         res.status(404).json({ message: "Showcase not found" })
       } else {
-        showcase.users = (showcase.users.map(async value => await UserModel.findById(value)))
+        const actualUsers = []
+        for (let userId in showcase.users){
+          let user = await UserModel.findById(showcase.users[userId])
+          actualUsers.push(user)
+        }
+
+        showcase.users = actualUsers
+
+        console.log(showcase.users)
+
         // showcase.users = []
         res.status(200).json(showcase)
       }

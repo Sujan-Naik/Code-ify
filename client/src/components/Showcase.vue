@@ -7,6 +7,7 @@
  import {computed, ref} from "vue";
  import UserPreviewList from "@/components/UserPreviewList.vue";
 
+
 export default{
   components: {UserPreviewList},
   data() {
@@ -15,7 +16,7 @@ export default{
       showcaseName : router.currentRoute.value.params.showcase,
       showcaseBody : ref(''),
       showcaseCreated : ref(''),
-      showcaseUsers : ref([])
+      showcaseUsers : ref(Array)
     }
   },
   methods:{
@@ -25,11 +26,9 @@ export default{
          name: this.showcaseName
        }
      }).then(value => {
-       console.log(value)
-       this.showcaseBody.value = value.data.contents
-       this.showcaseCreated.value = value.data.createdAt
-       this.showcaseBody.value = value.data.contents
-       // this.showcaseUsers.value = value.data.users
+       this.showcaseBody = value.data.contents
+       this.showcaseCreated = value.data.createdAt
+       this.showcaseUsers.value = value.data.users
      }).catch(reason => {
        console.log(reason)
      })
@@ -49,5 +48,5 @@ export default{
     <h1> This is {{showcaseName}}</h1>
     <a> {{showcaseCreated }}</a>
     <textarea v-model="showcaseBody"></textarea>
-    <UserPreviewList :userList="showcaseUsers"></UserPreviewList>
+    <UserPreviewList :userList="showcaseUsers.value"></UserPreviewList>
 </template>
