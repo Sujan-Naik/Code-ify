@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
         showcase.users = actualUsers
 
-        console.log(showcase.users)
+        console.log('get req?')
 
         // showcase.users = []
         res.status(200).json(showcase)
@@ -51,6 +51,20 @@ router.post('/', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message })
   }})
+
+router.patch('/update', async (req, res) => {
+    try {
+      const name = req.body.name
+      const contents = req.body.contents
+
+      const showcase = await ShowcaseModel.findOneAndUpdate({name: name}, {contents: contents})
+      if (!showcase) {
+        res.status(404).json({message: "Showcase not found"})
+      }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
 
 // router.get('/*', async (req, res) => {
 //     try {

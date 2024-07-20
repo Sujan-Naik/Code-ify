@@ -18,7 +18,9 @@ export default {
       showcaseCreated: ref(''),
       showcaseUsers: ref(Array),
       isEditor: false,
-      isAdmin: false
+      isAdmin: false,
+      attempt: false,
+      message: "",
     }
   },
   methods: {
@@ -41,20 +43,34 @@ export default {
         console.log(reason)
       })
     },
+    async saveChanges(){
+      await axios.patch("http://localhost:3000/api/showcase/update", {
+          name: this.showcaseName,
+          contents: this.showcaseBody
+      }).then(value => {
+
+      }).catch(reason => {
+        this.message = reason
+        window.clearTimeout()
+          this.attempt = true
+          window.setTimeout(() => {
+            this.attempt = false
+          }, 3000)
+      })
+    },
     renderMarkdown() {
       const html = marked.parse(this.showcaseBody);
       this.$refs.renderedMD.innerHTML = html
     },
     togglePreview() {
       this.isEditor = !this.isEditor
-      this.renderMarkdown
+      this.renderMarkdown()
     }
   },
   beforeMount() {
-    this.getShowcase()
+    this.getShowcase().then(() => this.renderMarkdown())
   },
   mounted() {
-    this.renderMarkdown()
   }
 }
 
@@ -68,6 +84,7 @@ export default {
   <UserPreviewList :userList="showcaseUsers.value"></UserPreviewList>
   <div v-if="isAdmin">
     <button @click="togglePreview">Toggle preview</button>
+    <button @click="saveChanges">Save contents</button>
 
       <div class="row justify-content-center">
         <div class="col-6" v-show="isEditor">
@@ -87,6 +104,10 @@ export default {
     <div ref="renderedMD" class="card">
 
     </div>
+  </div>
+
+  <div class="alert alert-primary" role="alert" v-show="attempt" >
+    {{message}}
   </div>
 
 </template>
