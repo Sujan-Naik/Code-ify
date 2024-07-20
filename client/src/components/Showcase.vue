@@ -7,6 +7,7 @@
  import {computed, ref} from "vue";
  import UserPreviewList from "@/components/UserPreviewList.vue";
 
+import { marked } from 'marked';
 
 export default{
   components: {UserPreviewList},
@@ -16,7 +17,7 @@ export default{
       showcaseName : router.currentRoute.value.params.showcase,
       showcaseBody : ref(''),
       showcaseCreated : ref(''),
-      showcaseUsers : ref(Array)
+      showcaseUsers : ref(Array),
     }
   },
   methods:{
@@ -32,6 +33,10 @@ export default{
      }).catch(reason => {
        console.log(reason)
      })
+    },
+    renderMarkdown(){
+       const html = marked.parse(this.showcaseBody);
+       this.$refs.renderedMD.innerHTML = html
     }
   },
   beforeMount() {
@@ -47,6 +52,9 @@ export default{
 
     <h1> This is {{showcaseName}}</h1>
     <a> {{showcaseCreated }}</a>
-    <textarea v-model="showcaseBody"></textarea>
+    <textarea v-model="showcaseBody" @input="renderMarkdown"></textarea>
+    <div class="card" ref="renderedMD">
+
+    </div>
     <UserPreviewList :userList="showcaseUsers.value"></UserPreviewList>
 </template>
