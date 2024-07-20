@@ -24,6 +24,9 @@
         </li>
 
       </ul>
+      <RouterLink to="create-showcase">
+      <button>Create a new Showcase</button>
+        </RouterLink>
     </div>
   </main>
 </template>

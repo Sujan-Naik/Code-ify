@@ -18,7 +18,12 @@ const UserSchema = new Schema({
     createdAt:{
         type: Date,
         required: true
-    }
+    },
+    showcases: [{
+        type: Schema.Types.ObjectId,
+        ref: 'showcase',
+        required: true
+    }]
 })
 
 const UserModel = model('user', UserSchema)

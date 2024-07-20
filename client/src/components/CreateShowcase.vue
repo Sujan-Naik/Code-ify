@@ -2,6 +2,8 @@
   import axios from "axios";
   import {storeToRefs} from "pinia";
   import {useAuthStore} from "@/stores/auth.store.js";
+  import {useRouter} from "vue-router";
+
   export default {
     name: "CreateShowcase",
     data() {
@@ -24,12 +26,33 @@
             this.message.innerHTML = "You have successfully created a new showcase!"
             this.message.className = "alert alert-success"
             this.message.role = "alert"
+            this.$router.push('showcase/' + this.name)
+
+            this.assignShowcaseToUser()
           }).catch(reason => {
             this.message.innerHTML = reason.data
             this.message.className = "alert alert-danger"
             this.message.role = "alert"
           });
           document.body.append(this.message);
+      },
+      async assignShowcaseToUser() {
+           await axios.patch("http://localhost:3000/api/user/showcase/update/", {
+                name: this.name,
+                username: this.user.user.username
+            }).then(value => {
+             this.message.innerHTML = "You have successfully been assigned this new showcase!"
+                this.message.className = "alert alert-success"
+                this.message.role = "alert"
+
+            }).catch(reason => {
+              this.message = reason
+              window.clearTimeout()
+                this.attempt = true
+                window.setTimeout(() => {
+                  this.attempt = false
+                }, 3000)
+          })
       }
     }
   }
