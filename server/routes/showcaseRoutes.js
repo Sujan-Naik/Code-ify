@@ -53,8 +53,8 @@ router.get('/get-all', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { name, contents, createdAt, usernames } = req.body;
 
+    const { name, contents, createdAt, usernames, textPreview } = req.body;
     const existingShowcase = await ShowcaseModel.findOne({ name });
 
     if (existingShowcase) {
@@ -64,11 +64,11 @@ router.post('/', async (req, res) => {
     const users = []
     const mainUser = await UserModel.findOne( { username: usernames[0]})
     users.push(mainUser)
-    const showcase = await ShowcaseModel.create({ name, contents, createdAt, users});
-
+    const showcase = await ShowcaseModel.create({
+        name: name, contents: contents,createdAt: createdAt,users: users,textPreview: textPreview});
     res
       .status(201)
-      .json({ message: "Showcase created successfully", success: true, showcase: showcase });
+      .json({showcase: showcase });
   } catch (error) {
     res.status(500).json({ message: error.message })
   }})
@@ -81,6 +81,7 @@ router.patch('/update', upload.single('img'),async (req, res) => {
     try {
       const name = req.body.name
       const contents = req.body.contents
+        const textPreview = req.body.textPreview
         if (req.file) {
             const img = req.file
             const showcase = await ShowcaseModel.findOneAndUpdate({name: name}, {
@@ -88,12 +89,12 @@ router.patch('/update', upload.single('img'),async (req, res) => {
                     filename: img.originalname,
                     contentType: img.mimetype,
                     imageBase64: img.buffer.toString('base64')
-                }
+                }, textPreview: textPreview
             })
         }
         else {
             const showcase = await ShowcaseModel.findOneAndUpdate({name: name}, {
-                contents: contents})
+                contents: contents, textPreview: textPreview})
         }
     } catch (error) {
         res.status(500).json({ message: error.message })

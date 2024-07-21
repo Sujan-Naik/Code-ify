@@ -1,8 +1,5 @@
 <script>
 
-import {useAuthStore} from "@/stores/auth.store.js";
-import axios from "axios";
-import {router} from "@/main.js";
 import {ref} from "vue";
 import UserPreviewList from "@/components/UserPreviewList.vue";
 
@@ -12,10 +9,13 @@ export default {
   name: "ShowcaseCard",
   components: {UserPreviewList},
   props: {
-      showcaseName: String,
-      showcaseBody: String,
-      showcaseCreated: String,
-      showcaseUsers: ref(Array),
+    showcaseName: String,
+    showcaseBody: String,
+    showcaseCreated: String,
+    showcaseUsers: ref(Array),
+    showcaseTextPreview: String,
+    showcaseImage: ref(Object),
+
   },
   methods: {
     renderMarkdown() {
@@ -33,18 +33,22 @@ export default {
 
 <template>
 
-  <div class="card">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">{{ showcaseName }}</h5>
-      <div ref="renderedMD" class="card-text"></div>
-      <p class="card-text"><small class="text-body-secondary">Since {{ showcaseCreated }} </small></p>
-      <UserPreviewList :userList="showcaseUsers.value"></UserPreviewList>
+  <RouterLink :to="'/showcase/'+ showcaseName">
+    <div class="card">
+      <sub> {{ showcaseTextPreview }}</sub>
+      <div v-if="showcaseImage">
+        <img ref="renderedImg" :alt="showcaseImage.filename"
+             :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`"
+             class="card-img-top"/>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ showcaseName }}</h5>
+        <div ref="renderedMD" class="card-text"></div>
+        <p class="card-text"><small class="text-body-secondary">Since {{ showcaseCreated }} </small></p>
+        <UserPreviewList :userList="showcaseUsers.value"></UserPreviewList>
+      </div>
     </div>
-  </div>
-
-
-
+  </RouterLink>
 
 
 </template>

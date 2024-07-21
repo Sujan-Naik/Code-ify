@@ -18,6 +18,7 @@ export default {
       showcaseCreated: ref(''),
       showcaseUsers: ref(Array),
       showcaseImage: ref(Object),
+      showcaseTextPreview: ref(''),
       isEditor: false,
       isAdmin: false,
       attempt: false,
@@ -45,20 +46,22 @@ export default {
         this.$showErrorModal(reason.data)
       })
     },
-    async saveChanges(){
+    async saveChanges() {
       const formData = new FormData();
       formData.append('name', this.showcaseName);
       formData.append('contents', this.showcaseBody);
+      formData.append('textPreview', this.showcaseTextPreview)
+
       if (this.selectedFile) {
         formData.append('img', this.selectedFile);
       }
       await axios.patch('http://localhost:3000/api/showcase/update', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }).then(value => {
-          this.$showSuccessModal('Successfully saved changes')
-        }).catch(reason => {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(value => {
+        this.$showSuccessModal('Successfully saved changes')
+      }).catch(reason => {
         this.$showErrorModal(reason.data)
 
       })
@@ -74,7 +77,7 @@ export default {
     },
     onFileChange(event) {
       this.selectedFile = event.target.files[0];
-       this.$refs.renderedImg.src = URL.createObjectURL(event.target.files[0])
+      this.$refs.renderedImg.src = URL.createObjectURL(event.target.files[0])
     },
   },
   beforeMount() {
@@ -89,39 +92,59 @@ export default {
 
 <template>
 
+    <div class="row p-5">
+
+  <div class="d-inline-flex flex-row justify-content-center">
+
+    <div class="d-inline-flex flex-column">
+
   <h1> This is {{ showcaseName }}</h1>
+
   <a> {{ showcaseCreated }}</a>
   <UserPreviewList :userList="showcaseUsers.value"></UserPreviewList>
+
+      </div>
+    </div>
+    </div>
+
   <div v-if="isAdmin">
     <button @click="togglePreview">Toggle preview</button>
     <button @click="saveChanges">Save contents</button>
-<div v-if="showcaseImage">
-    <img ref="renderedImg" :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`" :alt="showcaseImage.filename" />
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-6" v-show="isEditor">
-
-          <div>
-        <label for="image">Image:</label>
-        <input type="file" @change="onFileChange" required />
-        </div>
-          <div class="card">
-            <textarea v-model="showcaseBody" @input="renderMarkdown"></textarea>
-          </div>
-
-        </div>
-        <div class="col-6">
-          <div ref="renderedMD" class="card">
-          </div>
-        </div>
-      </div>
+    <div v-if="showcaseImage">
+      <img ref="renderedImg" :alt="showcaseImage.filename"
+           :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`"/>
     </div>
 
 
-  <div v-if="!isAdmin">
-    <div v-if="showcaseImage">
-    <img ref="renderedImg" :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`" :alt="showcaseImage.filename" />
+    <div class="row justify-content-center">
+      <div v-show="isEditor" class="col-6">
+
+        <div>
+          <label for="image">Image:</label>
+          <input required type="file" @change="onFileChange"/>
+
+          <label class="form-label" for="preview-input">Enter a text preview</label>
+          <input id="preview-input" v-model="showcaseTextPreview" class="form-control"/>
+        </div>
+        <div class="card">
+          <textarea v-model="showcaseBody" @input="renderMarkdown"></textarea>
+        </div>
+
       </div>
+      <div class="col-6">
+        <div ref="renderedMD" class="card">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div v-if="!isAdmin">
+    <sub> {{ showcaseTextPreview }}</sub>
+    <div v-if="showcaseImage">
+      <img ref="renderedImg" :alt="showcaseImage.filename"
+           :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`"/>
+    </div>
     <div ref="renderedMD" class="card">
 
     </div>

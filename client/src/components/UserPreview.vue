@@ -1,15 +1,17 @@
 <script setup>
- const props = defineProps({
-   user: JSON
- })
+const props = defineProps({
+  user: JSON
+})
 
- import {useUser} from "../composables/userComposables.js";
+import {useUser} from "../composables/userComposables.js";
 
- const { username, email, createdAt} = useUser(props)
+const {username, email, createdAt} = useUser(props)
+
+
 </script>
 
 <template>
   <div>
-      <a> Username is {{username}}</a>
+    <a> {{ username }}</a>
   </div>
 </template>

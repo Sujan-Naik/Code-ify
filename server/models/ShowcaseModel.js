@@ -21,7 +21,8 @@ const ShowcaseSchema = new Schema({
     required: true
   }],
   textPreview: {
-    type: String
+    type: String,
+    required: true
   },
   image: {
     filename: String,

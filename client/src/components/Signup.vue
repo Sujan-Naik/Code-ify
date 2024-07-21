@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import {useAuthStore} from "@/stores/auth.store.js";
 
 export default {
   name: "Signup",
@@ -21,12 +22,11 @@ export default {
         createdAt: new Date()
       }).then(value => {
         this.$showSuccessModal("You have successfully created a new account!")
+        useAuthStore().login(value.data)
+        this.$router.push('/home')
       }).catch(reason => {
         this.$showErrorModal(reason.data)
-
       });
-      document.body.append(this.message);
-
     }
   }
 }
