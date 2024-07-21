@@ -30,6 +30,25 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/get-all', async (req, res) => {
+    try {
+      const allShowcases = await ShowcaseModel.find()
+
+      for (let showcaseIndex in allShowcases) {
+        const actualUsers = []
+        const showcase = allShowcases[showcaseIndex]
+        for (let userId in showcase.users){
+          let user = await UserModel.findById(showcase.users[userId])
+          actualUsers.push(user)
+        }
+        showcase.users = actualUsers
+      }
+      res.status(200).json(allShowcases)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 router.post('/', async (req, res) => {
   try {
     const { name, contents, createdAt, usernames } = req.body;

@@ -1,5 +1,6 @@
 <script setup>
 
+import ShowcaseBrowser from "@/components/ShowcaseBrowser.vue";
 </script>
 
 <template>
@@ -32,6 +33,8 @@
         </div>
     </div>
   </div>
+
+  <showcase-browser></showcase-browser>
 
 </template>
 
