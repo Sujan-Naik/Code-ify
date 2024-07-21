@@ -1,6 +1,8 @@
 const { Router } = require('express')
 const ShowcaseModel = require("../models/ShowcaseModel");
 const UserModel = require("../models/UserModel");
+const {memoryStorage} = require("multer");
+const multer = require("multer");
 
 
 const router = Router()
@@ -62,7 +64,7 @@ router.post('/', async (req, res) => {
     const users = []
     const mainUser = await UserModel.findOne( { username: usernames[0]})
     users.push(mainUser)
-    const showcase = await ShowcaseModel.create({ name, contents, createdAt, users });
+    const showcase = await ShowcaseModel.create({ name, contents, createdAt, users});
 
     res
       .status(201)
@@ -71,15 +73,28 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: error.message })
   }})
 
-router.patch('/update', async (req, res) => {
+// Configure Multer
+const storage = memoryStorage();
+const upload = multer({ storage: storage });
+
+router.patch('/update', upload.single('img'),async (req, res) => {
     try {
       const name = req.body.name
       const contents = req.body.contents
-
-      const showcase = await ShowcaseModel.findOneAndUpdate({name: name}, {contents: contents})
-      if (!showcase) {
-        res.status(404).json({message: "Showcase not found"})
-      }
+        if (req.file) {
+            const img = req.file
+            const showcase = await ShowcaseModel.findOneAndUpdate({name: name}, {
+                contents: contents, image: {
+                    filename: img.originalname,
+                    contentType: img.mimetype,
+                    imageBase64: img.buffer.toString('base64')
+                }
+            })
+        }
+        else {
+            const showcase = await ShowcaseModel.findOneAndUpdate({name: name}, {
+                contents: contents})
+        }
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

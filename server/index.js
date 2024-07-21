@@ -34,8 +34,15 @@ const UserRoutes = require('./routes/userRoutes')
 app.use('/api/user', UserRoutes)
 
 const ShowcaseRoutes = require('./routes/showcaseRoutes')
+const {memoryStorage} = require("multer");
+const multer = require("multer");
 
 app.use('/api/showcase', ShowcaseRoutes)
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))

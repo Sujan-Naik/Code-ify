@@ -17,10 +17,11 @@ export default {
       showcaseBody: ref(''),
       showcaseCreated: ref(''),
       showcaseUsers: ref(Array),
+      showcaseImage: ref(Object),
       isEditor: false,
       isAdmin: false,
       attempt: false,
-      message: "",
+      selectedFile: null
     }
   },
   methods: {
@@ -33,6 +34,7 @@ export default {
         this.showcaseBody = value.data.contents
         this.showcaseCreated = value.data.createdAt
         this.showcaseUsers.value = value.data.users
+        this.showcaseImage = value.data.image
         for (let valueKey in this.showcaseUsers.value) {
           if (this.showcaseUsers.value[valueKey].username === this.username) {
             this.isEditor = true;
@@ -40,23 +42,27 @@ export default {
           }
         }
       }).catch(reason => {
-        console.log(reason)
+        this.$showErrorModal(reason.data)
       })
     },
     async saveChanges(){
-      await axios.patch("http://localhost:3000/api/showcase/update", {
-          name: this.showcaseName,
-          contents: this.showcaseBody
-      }).then(value => {
+      const formData = new FormData();
+      formData.append('name', this.showcaseName);
+      formData.append('contents', this.showcaseBody);
+      if (this.selectedFile) {
+        formData.append('img', this.selectedFile);
+      }
+      await axios.patch('http://localhost:3000/api/showcase/update', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(value => {
+          this.$showSuccessModal('Successfully saved changes')
+        }).catch(reason => {
+        this.$showErrorModal(reason.data)
 
-      }).catch(reason => {
-        this.message = reason
-        window.clearTimeout()
-          this.attempt = true
-          window.setTimeout(() => {
-            this.attempt = false
-          }, 3000)
       })
+
     },
     renderMarkdown() {
       const html = marked.parse(this.showcaseBody);
@@ -65,7 +71,11 @@ export default {
     togglePreview() {
       this.isEditor = !this.isEditor
       this.renderMarkdown()
-    }
+    },
+    onFileChange(event) {
+      this.selectedFile = event.target.files[0];
+       this.$refs.renderedImg.src = URL.createObjectURL(event.target.files[0])
+    },
   },
   beforeMount() {
     this.getShowcase().then(() => this.renderMarkdown())
@@ -85,12 +95,20 @@ export default {
   <div v-if="isAdmin">
     <button @click="togglePreview">Toggle preview</button>
     <button @click="saveChanges">Save contents</button>
-
+<div v-if="showcaseImage">
+    <img ref="renderedImg" :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`" :alt="showcaseImage.filename" />
+      </div>
       <div class="row justify-content-center">
         <div class="col-6" v-show="isEditor">
+
+          <div>
+        <label for="image">Image:</label>
+        <input type="file" @change="onFileChange" required />
+        </div>
           <div class="card">
             <textarea v-model="showcaseBody" @input="renderMarkdown"></textarea>
           </div>
+
         </div>
         <div class="col-6">
           <div ref="renderedMD" class="card">
@@ -101,13 +119,12 @@ export default {
 
 
   <div v-if="!isAdmin">
+    <div v-if="showcaseImage">
+    <img ref="renderedImg" :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`" :alt="showcaseImage.filename" />
+      </div>
     <div ref="renderedMD" class="card">
 
     </div>
-  </div>
-
-  <div class="alert alert-primary" role="alert" v-show="attempt" >
-    {{message}}
   </div>
 
 </template>
