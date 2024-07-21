@@ -4,7 +4,8 @@ const UserSchema = new Schema({
     username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        key: true
     },
     email: {
         type: String,
@@ -17,7 +18,12 @@ const UserSchema = new Schema({
     createdAt:{
         type: Date,
         required: true
-    }
+    },
+    showcases: [{
+        type: Schema.Types.ObjectId,
+        ref: 'showcase',
+        required: true
+    }]
 })
 
 const UserModel = model('user', UserSchema)

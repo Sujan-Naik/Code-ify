@@ -16,6 +16,11 @@ import {useAuthStore} from "@/stores/auth.store.js";
 import { createPinia } from 'pinia'
 import MyProfile from "@/components/MyProfile.vue";
 import PublicProfile from "@/components/PublicProfile.vue";
+import CreateShowcase from "@/components/CreateShowcase.vue";
+import Showcase from "@/components/Showcase.vue";
+import UserShowcase from "@/components/UserShowcaseList.vue";
+import errorModalPlugin from "@/components/plugin/ErrorModalPlugin.js";
+import successModalPlugin from "@/components/plugin/SuccessModalPlugin.js";
 const pinia = createPinia()
 
 
@@ -29,6 +34,9 @@ export const router = createRouter({
         { path: '/sign-up', component: Signup},
         { path: '/my-profile', component: MyProfile, props: {user: JSON}},
         { path: '/profile/:username', component: PublicProfile, name:'profile'},
+        { path: '/profile/:username/showcases', component: UserShowcase, name:'user-showcase'},
+        { path: '/create-showcase', component: CreateShowcase, name:'create-showcase'},
+        { path: '/showcase/:showcase', component: Showcase, name:'showcase'},
     ]
 });
 
@@ -52,5 +60,6 @@ router.beforeEach(async (to) => {
 const app = createApp(App)
 app.use(pinia)
 app.use(router);
-
+app.use(errorModalPlugin);
+app.use(successModalPlugin);
 app.mount('#app')

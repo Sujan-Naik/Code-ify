@@ -4,15 +4,16 @@ import {ref} from "vue";
 import UserPreview from "@/components/UserPreview.vue";
 import UserDetailedPreview from "@/components/UserDetailedPreview.vue";
 
-defineProps(({
-  userList: ref([])
-}))
+const props = defineProps({
+  userList: Array
+})
+
 </script>
 
 <template>
   <div class="accordion accordion-flush" id="accordionFlushExample">
 
-  <div v-for="userProp in userList.value" :key="userProp">
+  <div v-for="userProp in userList" :key="userProp">
 
   <div class="accordion-item">
     <h2 class="accordion-header">

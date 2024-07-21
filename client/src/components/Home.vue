@@ -1,9 +1,11 @@
-<script>
+<script setup>
+
 </script>
 
 <template>
 
-
+  <RouterLink to="/create-showcase">Create a new showcase</RouterLink>
+  <RouterLink to="/showcase/fart">View test showcase</RouterLink>
 
 
 <div class="row">

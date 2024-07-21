@@ -10,14 +10,14 @@ export default{
   data(){
     return {
       searchQuery: ref(""),
-      matchingUsers: ref([])
+      matchingUsers: ref(Array)
     }
   },
   methods: {
     async getMatchingUsers() {
       const response = await axios.get('http://localhost:3000/api/user')
           .then(value => {
-            const possibleUsers = []
+            const possibleUsers = new Array()
             const data = value.data
 
             const regex = new RegExp(String(this.searchQuery))
@@ -53,7 +53,7 @@ export default{
       </div>
       <div class="offcanvas-body">
         <input  v-model="searchQuery" type="text" id="fname" name="fname"><br><br>
-        <UserPreviewList :userList="matchingUsers"></UserPreviewList>
+        <UserPreviewList :userList="matchingUsers.value"></UserPreviewList>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
   </div>

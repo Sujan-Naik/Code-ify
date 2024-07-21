@@ -20,13 +20,10 @@
             email: this.email,
             createdAt: new Date()
           }).then(value => {
-            this.message.innerHTML = "You have successfully created a new account!"
-            this.message.className = "alert alert-success"
-            this.message.role = "alert"
+            this.$showSuccessModal("You have successfully created a new account!")
           }).catch(reason => {
-            this.message.innerHTML = reason.data
-            this.message.className = "alert alert-danger"
-            this.message.role = "alert"
+            this.$showErrorModal(reason.data)
+
           });
           document.body.append(this.message);
 

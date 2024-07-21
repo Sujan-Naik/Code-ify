@@ -16,8 +16,8 @@
   // const { users } = storeToRefs(usersStore);
   //
   // usersStore.getAll();
-
-
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 </script>
 
 <script>
@@ -28,9 +28,10 @@
   <navbar />
   <userSearch/>
 
-  <div id="app">
     <router-view/>
-  </div>
 
 </template>
 
+<style>
+
+</style>

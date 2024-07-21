@@ -24,6 +24,12 @@
         </li>
 
       </ul>
+      <RouterLink to="create-showcase">
+      <button>Create a new Showcase</button>
+        </RouterLink>
+      <RouterLink :to="'profile/' + username + '/showcases/'">
+        <button>View this accounts Showcases</button>
+      </RouterLink>
     </div>
   </main>
 </template>
