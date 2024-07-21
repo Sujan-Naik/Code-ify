@@ -54,6 +54,29 @@ router.patch('/showcase/update', async (req, res) => {
     }
 })
 
+router.get('/showcase/get-all', async (req, res) => {
+    try {
+        const username = req.query.username
+          const user = await UserModel.findOne({username: username})
+            if (!user) {
+                req.status(404).json({ message: "User not found" })
+            } else {
+                const showcaseIdArray = user["showcases"]
+                const showcases = []
+                for (let showcaseIndex in showcaseIdArray){
+                  let showcase = await ShowcaseModel.findById(showcaseIdArray[showcaseIndex])
+                    if (showcase) {
+                        showcases.push(showcase)
+                    }
+                }
+                res.status(200).json(showcases)
+            }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+
 router.post('/', Signup);
 
 // router.get('/*', async (req, res) => {

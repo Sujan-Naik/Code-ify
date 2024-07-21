@@ -40,7 +40,11 @@
 <template>
     <div class="container-fluid">
       <h1>Profile</h1>
-      <div v-if="valid">{{ message }}</div>
+      <div v-if="valid">{{ message }}
+      <RouterLink :to="'/profile/' + route_name + '/showcases/'">
+        <button>View this accounts Showcases</button>
+      </RouterLink>
+      </div>
       <div v-if="!valid">User not found</div>
 
     </div>
