@@ -18,6 +18,7 @@
   // usersStore.getAll();
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
+
 </script>
 
 <script>
@@ -26,9 +27,13 @@ window.bootstrap = bootstrap;
 
 <template>
   <navbar />
-  <userSearch/>
 
+  <body class="bg-secondary-subtle">
+
+  <div class = "container-xxl p-5 b-5 text-bg-dark h-100">
     <router-view/>
+  </div>
+  </body>
 
 </template>
 

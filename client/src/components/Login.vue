@@ -38,13 +38,21 @@
 <template>
 
   <form @submit.prevent="getUser">
-    <input v-model="username" placeholder="Enter username" />
-    <input v-model="password" placeholder="Enter password" />
-    <button type="submit">Submit</button>
+
+    <div class="mb-3">
+      <label class="form-label" for="username-input">Enter your username</label>
+      <input id="username-input" v-model="username" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="password-input">Enter your password</label>
+      <input id="password-input" v-model="password" class="form-control" type="password">
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+
   </form>
 
-  <a class="nav-link active" aria-current="page">
-    <RouterLink to="/sign-up">Sign up here</RouterLink>
-  </a>
+     <RouterLink to="/sign-up">
+      <button class="btn btn-primary"> Sign up here </button>
+    </RouterLink>
 
 </template>

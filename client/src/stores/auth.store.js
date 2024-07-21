@@ -20,7 +20,7 @@ export const useAuthStore = defineStore({
             // store user details and jwt in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
 
-            router.push(this.returnUrl || '/');
+            router.push(this.returnUrl || '/home');
 
         },
         logout() {

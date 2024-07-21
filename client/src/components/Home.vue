@@ -4,50 +4,34 @@
 
 <template>
 
-  <RouterLink to="/create-showcase">Create a new showcase</RouterLink>
-  <RouterLink to="/showcase/fart">View test showcase</RouterLink>
+  <div class="row p-5">
+        <div class="d-inline-flex justify-content-center">
+
+    <div class="d-inline-flex flex-column">
+      <h1> Welcome to Code-ify!</h1>
+      <sub> It's never been easier for indie developers to connect to communities</sub>
+    </div>
+        </div>
+  </div>
 
 
-<div class="row">
-  <div class="col-4">
-    <div id="list-example" class="list-group">
-      <a href="#list-item-1" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">What we're about</h5>
-          <small>3 days ago</small>
+  <div class="row gx-5 ">
+    <div class="col">
+              <div class="d-flex justify-content-center">
+
+      <RouterLink to="/create-showcase" >
+        <button class="btn btn-primary" type="button">Create a new showcase</button>
+      </RouterLink>
+              </div>
+    </div>
+    <div class="col">
+        <div class="d-flex justify-content-center">
+      <RouterLink to="/showcase/fart">
+        <button class="btn btn-primary" type="button">View test showcase</button>
+      </RouterLink>
         </div>
-        <p class="mb-1">Some placeholder content in a paragraph.</p>
-        <small>And some small print.</small>
-      </a>
-      <a href="#list-item-2" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">List group item heading</h5>
-          <small class="text-body-secondary">3 days ago</small>
-        </div>
-        <p class="mb-1">Some placeholder content in a paragraph.</p>
-        <small class="text-body-secondary">And some muted small print.</small>
-      </a>
-      <a href="#list-item-3" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">List group item heading</h5>
-          <small class="text-body-secondary">3 days ago</small>
-        </div>
-        <p class="mb-1">Some placeholder content in a paragraph.</p>
-        <small class="text-body-secondary">And some muted small print.</small>
-      </a>
-  </div>
-  </div>
-  <div class="col-8">
-    <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-      <h4 id="list-item-1">Item 1</h4>
-      <p>...</p>
-      <h4 id="list-item-2">Item 2</h4>
-      <p>...</p>
-      <h4 id="list-item-3">Item 3</h4>
-      <p>...</p>
     </div>
   </div>
-</div>
 
 </template>
 

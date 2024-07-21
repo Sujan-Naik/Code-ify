@@ -45,18 +45,13 @@ export default{
 </script>
 
 <template>
-  <header>
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Toggle top offcanvas</button>
-    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasTopLabel">Search</h5>
-      </div>
-      <div class="offcanvas-body">
+  <div>
+
+  <form class="d-flex" role="search">
         <input  v-model="searchQuery" type="text" id="fname" name="fname"><br><br>
         <UserPreviewList :userList="matchingUsers.value"></UserPreviewList>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
+      </form>
+
   </div>
-  </header>
 
 </template>
