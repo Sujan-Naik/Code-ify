@@ -19,6 +19,8 @@ import PublicProfile from "@/components/PublicProfile.vue";
 import CreateShowcase from "@/components/CreateShowcase.vue";
 import Showcase from "@/components/Showcase.vue";
 import UserShowcase from "@/components/UserShowcaseList.vue";
+import errorModalPlugin from "@/components/plugin/ErrorModalPlugin.js";
+import successModalPlugin from "@/components/plugin/SuccessModalPlugin.js";
 const pinia = createPinia()
 
 
@@ -58,5 +60,6 @@ router.beforeEach(async (to) => {
 const app = createApp(App)
 app.use(pinia)
 app.use(router);
-
+app.use(errorModalPlugin);
+app.use(successModalPlugin);
 app.mount('#app')

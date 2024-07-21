@@ -8,7 +8,6 @@
     name: "CreateShowcase",
     data() {
       return {
-        message: document.createElement("div"),
         name: "",
         contents: "test",
         user: storeToRefs(useAuthStore())
@@ -23,35 +22,22 @@
             createdAt: new Date(),
             usernames: [this.user.user.username]
           }).then(value => {
-            this.message.innerHTML = "You have successfully created a new showcase!"
-            this.message.className = "alert alert-success"
-            this.message.role = "alert"
+            this.$showSuccessModal("You have successfully created a new showcase!")
             this.$router.push('showcase/' + this.name)
 
             this.assignShowcaseToUser()
           }).catch(reason => {
-            this.message.innerHTML = reason.data
-            this.message.className = "alert alert-danger"
-            this.message.role = "alert"
+            this.$showErrorModal(reason)
           });
-          document.body.append(this.message);
       },
       async assignShowcaseToUser() {
            await axios.patch("http://localhost:3000/api/user/showcase/update/", {
                 name: this.name,
                 username: this.user.user.username
             }).then(value => {
-             this.message.innerHTML = "You have successfully been assigned this new showcase!"
-                this.message.className = "alert alert-success"
-                this.message.role = "alert"
-
+             this.$showSuccessModal("You have successfully been assigned this new showcase!")
             }).catch(reason => {
-              this.message = reason
-              window.clearTimeout()
-                this.attempt = true
-                window.setTimeout(() => {
-                  this.attempt = false
-                }, 3000)
+             this.$showErrorModal(reason)
           })
       }
     }

@@ -16,8 +16,8 @@
   // const { users } = storeToRefs(usersStore);
   //
   // usersStore.getAll();
-
-
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 </script>
 
 <script>
