@@ -1,9 +1,4 @@
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
 
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -26,8 +21,11 @@ import successModalPlugin from "@/components/plugin/SuccessModalPlugin.js";
 const pinia = createPinia()
 
 
+// Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.css';
 
-
+// Import Bootstrap JS (optional, only if you need Bootstrap's JavaScript components)
+import 'bootstrap/dist/js/bootstrap.js'
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -45,7 +43,7 @@ export const router = createRouter({
 // https://jasonwatmore.com/post/2022/05/26/vue-3-pinia-jwt-authentication-tutorial-example
 router.beforeEach(async (to) => {
     // redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/','/sign-up','/login'];
+    const publicPages = ['/sign-up','/login'];
     const authRequired = !publicPages.includes(to.path);
     const auth = useAuthStore();
 

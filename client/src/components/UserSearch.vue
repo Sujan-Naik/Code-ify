@@ -1,16 +1,15 @@
 <script>
 
-import {ref} from "vue";
+import {h, ref, render, watch} from "vue";
 import axios from "axios";
-import UserPreview from "@/components/UserPreview.vue";
 import UserPreviewList from "@/components/UserPreviewList.vue";
 
-export default {
-  components: {UserPreviewList, UserPreview},
-  data() {
+export default{
+  components: {UserPreviewList},
+  data(){
     return {
       searchQuery: ref(""),
-      matchingUsers: ref(Array)
+      matchingUsers: ref([])
     }
   },
   methods: {
@@ -32,25 +31,32 @@ export default {
           })
     }
   },
-  watch: {
-    async searchQuery() {
-      await this.getMatchingUsers()
-    },
+  mounted() {
+    watch(() => this.searchQuery, async () => {
+      console.log('test')
+    await this.getMatchingUsers()
+  })
   }
 
 };
 
 
+
 </script>
 
 <template>
-  <div>
-
-    <form class="d-flex" role="search">
-      <input id="fname" v-model="searchQuery" name="fname" type="text"><br><br>
-      <UserPreviewList :userList="matchingUsers.value"></UserPreviewList>
-    </form>
-
+  <header>
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Search</button>
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel" style="--bs-offcanvas-height: 400px">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasTopLabel">Search</h5>
+      </div>
+      <div class="offcanvas-body">
+        <input  v-model="searchQuery" type="text" id="fname" name="fname"><br><br>
+        <UserPreviewList :userList="matchingUsers.value"></UserPreviewList>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
   </div>
+  </header>
 
 </template>

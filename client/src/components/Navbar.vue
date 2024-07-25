@@ -19,6 +19,8 @@ function doLogout() {
 
 <template>
   <header>
+    <div class="row  bg-body-tertiary">
+    <div class="col-10">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid ">
         <RouterLink class="navbar-brand" to="/home">Code-ify</RouterLink>
@@ -49,9 +51,14 @@ function doLogout() {
               </ul>
             </li>
           </ul>
-          <userSearch/>
+
         </div>
       </div>
     </nav>
+      </div>
+    <div class="col-2  bg-body-tertiary">
+      <userSearch/>
+    </div>
+  </div>
   </header>
 </template>
