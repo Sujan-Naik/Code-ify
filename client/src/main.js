@@ -64,4 +64,6 @@ app.use(pinia)
 app.use(router);
 app.use(errorModalPlugin);
 app.use(successModalPlugin);
+
+
 app.mount('#app')

@@ -17,10 +17,12 @@ export default {
       showcaseBody: ref(''),
       showcaseCreated: ref(''),
       showcaseUsers: ref(Array),
+      showcaseImage: ref(Object),
+      showcaseTextPreview: ref(''),
       isEditor: false,
       isAdmin: false,
       attempt: false,
-      message: "",
+      selectedFile: null
     }
   },
   methods: {
@@ -33,6 +35,7 @@ export default {
         this.showcaseBody = value.data.contents
         this.showcaseCreated = value.data.createdAt
         this.showcaseUsers.value = value.data.users
+        this.showcaseImage = value.data.image
         for (let valueKey in this.showcaseUsers.value) {
           if (this.showcaseUsers.value[valueKey].username === this.username) {
             this.isEditor = true;
@@ -40,23 +43,29 @@ export default {
           }
         }
       }).catch(reason => {
-        console.log(reason)
+        this.$showErrorModal(reason.data)
       })
     },
-    async saveChanges(){
-      await axios.patch("http://localhost:3000/api/showcase/update", {
-          name: this.showcaseName,
-          contents: this.showcaseBody
-      }).then(value => {
+    async saveChanges() {
+      const formData = new FormData();
+      formData.append('name', this.showcaseName);
+      formData.append('contents', this.showcaseBody);
+      formData.append('textPreview', this.showcaseTextPreview)
 
+      if (this.selectedFile) {
+        formData.append('img', this.selectedFile);
+      }
+      await axios.patch('http://localhost:3000/api/showcase/update', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(value => {
+        this.$showSuccessModal('Successfully saved changes')
       }).catch(reason => {
-        this.message = reason
-        window.clearTimeout()
-          this.attempt = true
-          window.setTimeout(() => {
-            this.attempt = false
-          }, 3000)
+        this.$showErrorModal(reason.data)
+
       })
+
     },
     renderMarkdown() {
       const html = marked.parse(this.showcaseBody);
@@ -65,7 +74,11 @@ export default {
     togglePreview() {
       this.isEditor = !this.isEditor
       this.renderMarkdown()
-    }
+    },
+    onFileChange(event) {
+      this.selectedFile = event.target.files[0];
+      this.$refs.renderedImg.src = URL.createObjectURL(event.target.files[0])
+    },
   },
   beforeMount() {
     this.getShowcase().then(() => this.renderMarkdown())
@@ -79,35 +92,62 @@ export default {
 
 <template>
 
+    <div class="row p-5">
+
+  <div class="d-inline-flex flex-row justify-content-center">
+
+    <div class="d-inline-flex flex-column">
+
   <h1> This is {{ showcaseName }}</h1>
+
   <a> {{ showcaseCreated }}</a>
   <UserPreviewList :userList="showcaseUsers.value"></UserPreviewList>
+
+      </div>
+    </div>
+    </div>
+
   <div v-if="isAdmin">
     <button @click="togglePreview">Toggle preview</button>
     <button @click="saveChanges">Save contents</button>
+    <div v-if="showcaseImage">
+      <img ref="renderedImg" :alt="showcaseImage.filename"
+           :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`"/>
+    </div>
 
-      <div class="row justify-content-center">
-        <div class="col-6" v-show="isEditor">
-          <div class="card">
-            <textarea v-model="showcaseBody" @input="renderMarkdown"></textarea>
-          </div>
+
+    <div class="row justify-content-center">
+      <div v-show="isEditor" class="col-6">
+
+        <div>
+          <label for="image">Image:</label>
+          <input required type="file" @change="onFileChange"/>
+
+          <label class="form-label" for="preview-input">Enter a text preview</label>
+          <input id="preview-input" v-model="showcaseTextPreview" class="form-control"/>
         </div>
-        <div class="col-6">
-          <div ref="renderedMD" class="card">
-          </div>
+        <div class="card">
+          <textarea v-model="showcaseBody" @input="renderMarkdown"></textarea>
+        </div>
+
+      </div>
+      <div class="col-6">
+        <div ref="renderedMD" class="card">
         </div>
       </div>
     </div>
+  </div>
 
 
   <div v-if="!isAdmin">
+    <sub> {{ showcaseTextPreview }}</sub>
+    <div v-if="showcaseImage">
+      <img ref="renderedImg" :alt="showcaseImage.filename"
+           :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`"/>
+    </div>
     <div ref="renderedMD" class="card">
 
     </div>
-  </div>
-
-  <div class="alert alert-primary" role="alert" v-show="attempt" >
-    {{message}}
   </div>
 
 </template>
