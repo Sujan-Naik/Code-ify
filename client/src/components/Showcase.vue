@@ -108,18 +108,20 @@ export default {
     </div>
 
   <div v-if="isAdmin">
+
+        <div class="row justify-content-center">
+
     <button @click="togglePreview">Toggle preview</button>
     <button @click="saveChanges">Save contents</button>
-    <div v-if="showcaseImage">
-      <img ref="renderedImg" :alt="showcaseImage.filename"
+
+      <img v-if="showcaseImage" ref="renderedImg" :alt="showcaseImage.filename"
            :src="`data:${showcaseImage.contentType};base64,${showcaseImage.imageBase64}`"/>
-    </div>
 
+      <img v-else ref="renderedImg"  alt="" src=""/>
 
-    <div class="row justify-content-center">
       <div v-show="isEditor" class="col-6">
 
-        <div>
+        <div class="row justify-content-center align-content-center d-inline-flex ">
           <label for="image">Image:</label>
           <input required type="file" @change="onFileChange"/>
 
