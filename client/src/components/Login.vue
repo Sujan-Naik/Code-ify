@@ -38,6 +38,7 @@ export default {
 
 <template>
 
+
   <form @submit.prevent="getUser">
 
     <div class="mb-3">

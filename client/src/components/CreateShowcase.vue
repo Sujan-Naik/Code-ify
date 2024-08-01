@@ -28,7 +28,7 @@ export default {
 
         this.assignShowcaseToUser()
       }).catch(reason => {
-        this.$showErrorModal(reason)
+        this.$showErrorModal(reason.message)
       });
     },
     async assignShowcaseToUser() {
@@ -38,7 +38,7 @@ export default {
       }).then(value => {
         this.$showSuccessModal("You have successfully been assigned this new showcase!")
       }).catch(reason => {
-        this.$showErrorModal(reason)
+        this.$showErrorModal(reason.message)
       })
     }
   }

@@ -2,6 +2,8 @@
 
   import navbar from "./components/Navbar.vue"
 
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 
 </script>
 
@@ -15,7 +17,7 @@
 
   <body class="bg-secondary-subtle">
 
-  <div class = "container-xxl p-5 b-5  h-100">
+  <div class = "container p-5 b-5 h-100">
     <router-view/>
   </div>
   </body>

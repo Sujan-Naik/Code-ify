@@ -56,11 +56,9 @@ router.post('/', async (req, res) => {
 
     const { name, contents, createdAt, usernames, textPreview } = req.body;
     const existingShowcase = await ShowcaseModel.findOne({ name });
-
     if (existingShowcase) {
       return res.json({ message: "Showcase already exists" });
     }
-
     const users = []
     const mainUser = await UserModel.findOne( { username: usernames[0]})
     users.push(mainUser)
@@ -78,6 +76,7 @@ const storage = memoryStorage();
 const upload = multer({ storage: storage });
 
 router.patch('/update', upload.single('img'),async (req, res) => {
+    console.log('asd')
     try {
       const name = req.body.name
       const contents = req.body.contents
